@@ -1,24 +1,57 @@
-import logo from './logo.svg';
-import './App.css';
+import styled from "styled-components";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+//pages
+import Home from "./pages/Home";
+import Booking from "./pages/Booking";
+import Payment from "./pages/Payment";
+import Space from "./pages/Space";
+
+//components
+import Navbar from "./components/Navbar";
+import Sidebar from "./components/Sidebar";
+
+
+const Container = styled.div`
+  display: flex;
+  width: 100%;
+  background-color: #272829;
+  color: #D8D9DA;
+`;
+
+const Left = styled.div`
+  min-width: 250px;
+  max-width: 250px;
+  border-right: 1px solid #FFF6E0;
+  height: 100vh;
+`;
+
+const Right = styled.div`
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+`;
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+    <Container>
+      <Left>
+        <Sidebar />
+      </Left>
+      <Right>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/booking" element={<Booking />} />
+          <Route path="/space" element={<Space />} />
+          <Route path="/payment" element={<Payment />} />
+        </Routes>
+      </Right>
+    </Container>
+    </BrowserRouter>
   );
 }
 
