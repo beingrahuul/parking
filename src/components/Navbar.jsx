@@ -6,6 +6,9 @@ import settingSVG from "../icons/setting.svg"
 import NotificationSVG from "../icons/notification.svg"
 import HelpSVG from "../icons/help.svg"
 
+//user
+import { getUser } from "../utils/storageUtils"
+
 
 const NavbarContainer = styled.div`
   width: 100%;
@@ -112,10 +115,20 @@ const Profile = styled.div`
   }
 `
 
+const Name = styled.p`
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #ffffff;
+  margin: 0;
+  padding: 0;
+  margin-right: 1rem;
+`
+
 
 
 
 function Navbar() {
+  const user = getUser()
   return (
     <NavbarContainer>
       <SearchContainer>
@@ -136,9 +149,9 @@ function Navbar() {
             <img src={HelpSVG} alt="Help" />
           </MenuItem>
         </MenuContainer>
-        <Profile>
-          <img src="https://i.pravatar.cc/150?img=3" alt="Profile" />
-        </Profile>
+        {user && 
+          <Name>{user.name}</Name>
+        }
       </ProfileContainer>
     </NavbarContainer>
   )

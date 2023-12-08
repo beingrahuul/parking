@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import { getUser } from '../utils/storageUtils'
 
 const SidebarContainer = styled.div`
   width: 100%;
@@ -73,6 +74,7 @@ const MenuItem = styled.div`
 
 
 function Sidebar() {
+  const user = getUser()
   return (
     <SidebarContainer>
       <LogoContainer>
@@ -83,6 +85,9 @@ function Sidebar() {
         <Link to='/'>
           <MenuItem>Dashboard</MenuItem>
         </Link>
+        <Link to='/parking'>
+          <MenuItem>Parking</MenuItem>
+        </Link>
         <Link to='/booking'>
           <MenuItem>Booking</MenuItem>
         </Link>
@@ -92,6 +97,11 @@ function Sidebar() {
         <Link to='/payment'>
           <MenuItem>Payment</MenuItem>
         </Link>
+        {!user &&
+          <Link to='/Login'>
+            <MenuItem>Login</MenuItem>
+          </Link>
+        }
       </MenuContainer>
     </SidebarContainer>
   )
