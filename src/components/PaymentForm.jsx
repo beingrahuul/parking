@@ -1,13 +1,17 @@
 import styled from "styled-components"
-import CreditCard from "./CC/CreditCard"
+import { createPaymentLink } from "../api/paymentService.js"
+
 
 const Container = styled.div`
   width: 80%;
   height: 80%;
   display: flex;
+  flex-direction: column;
   border-radius: 10px;
   overflow: hidden;
-  background-color: #fff;
+  background-color: #b6b2b2;
+  gap: 1rem;  
+  align-items: center;
   color: #000000;
 `
 
@@ -16,9 +20,6 @@ const Left = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  align-items: center;
-  background-color: #b6b2b2;
 `
 
 const LogoContainer = styled.div`
@@ -52,7 +53,7 @@ const Info = styled.div`
 `
 
 const ItemContainer = styled.div`
-  width: 100%;
+  width: 50%;
   display: flex;
   gap: 0px;
   transition: all 0.2s ease-in-out;
@@ -62,7 +63,7 @@ const ItemContainer = styled.div`
 `
 
 const Item = styled.div`
-  flex: 2;
+  flex: 3;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -105,60 +106,66 @@ const Line = styled.div`
   opacity: 0.2;
 `
 
-
-const Right = styled.div`
-  width: 60%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  align-items: center;
-`
-
+const CheckoutButton = styled.button`
+  background-color: #000;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  margin-top: 20px;
+  font-size: 1rem;
+  font-weight: 400;
+  border-radius: 1px;
+  width: 25%;
+  cursor: pointer;
+`;
 
 function PaymentForm() {
+  const items = [
+    {"id": 1, "quantity": 3},
+    {"id": 2, "quantity": 2}
+  ]
+  const handleclick = async () => {
+    console.log("clicked");
+    try {
+      const {data} = await createPaymentLink(items);
+      window.location = data.url
+    }catch(err) {
+      console.log(err);
+    }
+  }
+
   return (
     <Container>
-      <Left>
         <LogoContainer>
           <Logo>Payment</Logo>
         </LogoContainer>
         <Info>Download Your invoice in PDF fromat</Info>
         <ItemContainer>
           <Item>
-            <ItemName>Demo Item</ItemName>
+            <ItemName>Normal parking</ItemName>
             <ItemInfo>
-              1 hour
+              1 hour x {items[0].quantity} slot
             </ItemInfo>
           </Item>
-          <Price>$0.00</Price>
+          <Price>₹{100 * items[0].quantity}.00</Price>
         </ItemContainer>
 
         <ItemContainer>
           <Item>
-            <ItemName>Demo Item</ItemName>
+            <ItemName>Valet parking</ItemName>
             <ItemInfo>
-              1 hour
+              1 hour x {items[1].quantity} slot
             </ItemInfo>
           </Item>
-          <Price>$0.00</Price>
+          <Price>₹{150 * items[1].quantity}.00</Price>
         </ItemContainer>
 
-        <ItemContainer>
-          <Item>
-            <ItemName>Demo Item</ItemName>
-            <ItemInfo>
-              1 hour
-            </ItemInfo>
-          </Item>
-          <Price>$0.00</Price>
-        </ItemContainer>
 
         <ItemContainer>
           <Item>
             <ItemName>Discounts & Offers</ItemName>
           </Item>
-          <Price>$0.00</Price>
+          <Price>₹0.00</Price>
         </ItemContainer>
 
         <Line/>
@@ -167,19 +174,16 @@ function PaymentForm() {
           <Item>
             <ItemName>Tax</ItemName>
           </Item>
-          <Price>$0.00</Price>
+          <Price>₹0.00</Price>
         </ItemContainer>
 
         <ItemContainer>
           <Item>
             <ItemName>Total</ItemName>
           </Item>
-          <Price>$0.00</Price>
+          <Price>₹{100 * items[0].quantity + 150 * items[1].quantity}.00</Price>
         </ItemContainer>
-      </Left>
-      <Right>
-        <CreditCard />
-      </Right>
+        <CheckoutButton onClick={handleclick}>Checkout</CheckoutButton>
     </Container>
   )
 }

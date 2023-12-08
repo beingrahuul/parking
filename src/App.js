@@ -9,6 +9,8 @@ import Space from "./pages/Space";
 import Registration from "./pages/Register";
 import Login from "./pages/Login";
 import Parking from "./pages/Parking";
+import Success from "./pages/Success";
+import Cancel from "./pages/Cancel";
 
 //components
 import Navbar from "./components/Navbar";
@@ -56,6 +58,8 @@ function App() {
           <Route path="/login" element={< Login/>} />
           <Route path="/parking" element={< Parking/>} />
           <Route path="/parking/manage/:id" element={< ManageParking/>} />
+          <Route path="/success" element={< Success/>} />
+          <Route path="/cancel" element={< Cancel/>} />
         </Routes>
       </Right>
     </Container>
