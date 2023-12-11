@@ -1,6 +1,8 @@
 import PaymentForm from "../components/PaymentForm"
 import styled from "styled-components"
 
+
+
 const PaymentContainer = styled.div`
   width: 100%;
   height: 100%;

@@ -14,8 +14,21 @@ export const getParkings = () => {
   });
 };
 
-export const createSlot = (slotData, token) => {
+export const createSlot = (slotData) => {
   return axios.post(`${API_URL}/slot/create`, slotData, {
     withCredentials: true,
+  });
+};
+
+export const getParkingSlots = (id) => {
+  return axios.get(`${API_URL}/parking/getSlots/${id}`, {
+    withCredentials: true
+  });
+};
+
+
+export const getParkingSlotDetails = (slotId) => {
+  return axios.get(`${API_URL}/slot/${slotId}`, {
+    withCredentials: true
   });
 };

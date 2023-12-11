@@ -1,6 +1,7 @@
 import styled from "styled-components"
 import { createPaymentLink } from "../api/paymentService.js"
 
+import { useCart } from '../context/CartContext';
 
 const Container = styled.div`
   width: 80%;
@@ -120,14 +121,17 @@ const CheckoutButton = styled.button`
 `;
 
 function PaymentForm() {
-  const items = [
+  const { items } = useCart();
+  const totalPrice = items.reduce((total, item) => total + item.price, 0);
+  console.log(items, totalPrice);
+  const itemss = [
     {"id": 1, "quantity": 3},
     {"id": 2, "quantity": 2}
   ]
   const handleclick = async () => {
     console.log("clicked");
     try {
-      const {data} = await createPaymentLink(items);
+      const {data} = await createPaymentLink(itemss);
       window.location = data.url
     }catch(err) {
       console.log(err);
@@ -140,26 +144,19 @@ function PaymentForm() {
           <Logo>Payment</Logo>
         </LogoContainer>
         <Info>Download Your invoice in PDF fromat</Info>
-        <ItemContainer>
-          <Item>
-            <ItemName>Normal parking</ItemName>
-            <ItemInfo>
-              1 hour x {items[0].quantity} slot
-            </ItemInfo>
-          </Item>
-          <Price>₹{100 * items[0].quantity}.00</Price>
-        </ItemContainer>
 
-        <ItemContainer>
-          <Item>
-            <ItemName>Valet parking</ItemName>
-            <ItemInfo>
-              1 hour x {items[1].quantity} slot
-            </ItemInfo>
-          </Item>
-          <Price>₹{150 * items[1].quantity}.00</Price>
-        </ItemContainer>
 
+        {items.map((item) => (
+          <ItemContainer>
+            <Item>
+              <ItemName>{item.type} parking</ItemName>
+              <ItemInfo>
+                Slot no. {item.slotNumber}
+              </ItemInfo>
+            </Item>
+            <Price>₹{item.price}.00</Price>
+          </ItemContainer>
+        ))}
 
         <ItemContainer>
           <Item>
@@ -181,7 +178,7 @@ function PaymentForm() {
           <Item>
             <ItemName>Total</ItemName>
           </Item>
-          <Price>₹{100 * items[0].quantity + 150 * items[1].quantity}.00</Price>
+          <Price>₹{totalPrice}.00</Price>
         </ItemContainer>
         <CheckoutButton onClick={handleclick}>Checkout</CheckoutButton>
     </Container>

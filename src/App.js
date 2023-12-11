@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { CartProvider } from './context/CartContext';
 
 //pages
 import Home from "./pages/Home";
@@ -42,6 +43,7 @@ const Right = styled.div`
 
 function App() {
   return (
+    <CartProvider>
     <BrowserRouter>
     <Container>
       <Left>
@@ -64,6 +66,7 @@ function App() {
       </Right>
     </Container>
     </BrowserRouter>
+    </CartProvider>
   );
 }
 
